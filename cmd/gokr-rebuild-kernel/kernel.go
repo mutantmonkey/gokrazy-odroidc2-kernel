@@ -41,8 +41,6 @@ var dockerFileTmpl = template.Must(template.New("dockerfile").
 	Parse(dockerFileContents))
 
 var patchFiles = []string{
-	"0001-ODROID-XU4-regulator-s2mps11-call-shutdown-function-.patch",
-	"0002-ODROID-XU4-regulator-s2mps11-add-ethernet-power-rese.patch",
 }
 
 func copyFile(dest, src string) error {
@@ -87,7 +85,7 @@ func find(filename string) (string, error) {
 		return filename, nil
 	}
 
-	path := filepath.Join(gopath, "src", "github.com", "anupcshan", "gokrazy-odroidxu4-kernel", filename)
+	path := filepath.Join(gopath, "src", "github.com", "mutantmonkey", "gokrazy-odroidc2-kernel", filename)
 	if _, err := os.Stat(path); err == nil {
 		return path, nil
 	}
@@ -135,7 +133,7 @@ func main() {
 	}
 	defer os.RemoveAll(tmp)
 
-	cmd := exec.Command("go", "install", "github.com/anupcshan/gokrazy-odroidxu4-kernel/cmd/gokr-build-kernel")
+	cmd := exec.Command("go", "install", "github.com/mutantmonkey/gokrazy-odroidc2-kernel/cmd/gokr-build-kernel")
 	cmd.Env = append(os.Environ(), "GOOS=linux", "CGO_ENABLED=0", "GOBIN="+tmp)
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
@@ -157,7 +155,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	dtbPath, err := find("exynos5422-odroidhc1.dtb")
+	dtbPath, err := find("meson-gxbb-odroidc2.dtb")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -239,7 +237,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if err := copyFile(dtbPath, filepath.Join(tmp, "exynos5422-odroidhc1.dtb")); err != nil {
+	if err := copyFile(dtbPath, filepath.Join(tmp, "meson-gxbb-odroidc2.dtb")); err != nil {
 		log.Fatal(err)
 	}
 }

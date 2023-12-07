@@ -45,7 +45,7 @@ func applyPatches(srcdir string) error {
 }
 
 func compile() error {
-	defconfig := exec.Command("make", "ARCH=arm", "odroid-xu3_defconfig")
+	defconfig := exec.Command("make", "ARCH=arm", "odroidc2_defconfig")
 	defconfig.Stdout = os.Stdout
 	defconfig.Stderr = os.Stderr
 	if err := defconfig.Run(); err != nil {

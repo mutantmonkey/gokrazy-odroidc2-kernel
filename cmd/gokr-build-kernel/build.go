@@ -25,7 +25,7 @@ const firmwareSource = "https://git.kernel.org/pub/scm/linux/kernel/git/firmware
 const firmwareRevision = "eb8ea1b46893c42edbd516f971a93b4d097730ab"
 const firmwareLocation = "/tmp/firmware"
 
-var firmwareFiles = []string{"rtl_nic/rtl8153a-3.fw", "s5p-mfc-v8.fw"}
+var firmwareFiles = []string{}
 
 func downloadKernel() error {
 	out, err := os.Create(filepath.Base(latest))
@@ -106,7 +106,7 @@ func applyPatches(srcdir string) error {
 }
 
 func compile() error {
-	defconfig := exec.Command("make", "ARCH=arm", "exynos_defconfig")
+	defconfig := exec.Command("make", "ARCH=arm", "odroidc2_defconfig")
 	defconfig.Stdout = os.Stdout
 	defconfig.Stderr = os.Stderr
 	if err := defconfig.Run(); err != nil {
@@ -219,7 +219,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if err := copyFile("/tmp/buildresult/exynos5422-odroidhc1.dtb", "arch/arm/boot/dts/samsung/exynos5422-odroidhc1.dtb"); err != nil {
+	if err := copyFile("/tmp/buildresult/meson-gxbb-odroidc2.dtb", "arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dts"); err != nil {
 		log.Fatal(err)
 	}
 }
